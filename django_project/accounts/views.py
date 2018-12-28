@@ -6,9 +6,9 @@ from django.http import HttpResponseRedirect
 from django.shortcuts import render
 
 
-
 def home(request):
     return render(request, 'accounts/home.html')
+
 
 def sign_in(request):
     form = AuthenticationForm()

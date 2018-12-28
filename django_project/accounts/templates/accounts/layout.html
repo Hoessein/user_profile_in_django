@@ -73,7 +73,7 @@
     {% if messages %}
         <ul class="messages centered grid-50">
             {% for message in messages %}
-                <li{% if message.tags %}
+                <li>{% if message.tags %}
                     class="{{ message.tags }}"{% endif %}>{{ message }}</li>
             {% endfor %}
         </ul>
