@@ -1,13 +1,13 @@
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.forms import AuthenticationForm, UserCreationForm
+from django.contrib.auth.decorators import login_required
+
 from django.urls import reverse
 from django.http import HttpResponseRedirect
 from django.shortcuts import render
 
 
-def home(request):
-    return render(request, 'accounts/home.html')
 
 
 def sign_in(request):
@@ -20,7 +20,7 @@ def sign_in(request):
                 if user.is_active:
                     login(request, user)
                     return HttpResponseRedirect(
-                        reverse('home')  # TODO: go to profile
+                        reverse('accounts:profile')  # TODO: go to profile
                     )
                 else:
                     messages.error(
@@ -50,7 +50,7 @@ def sign_up(request):
                 request,
                 "You're now a user! You've been signed in, too."
             )
-            return HttpResponseRedirect(reverse('home'))  # TODO: go to profile
+            return HttpResponseRedirect(reverse('accounts:profile'))  # TODO: go to profile
     return render(request, 'accounts/sign_up.html', {'form': form})
 
 
@@ -59,6 +59,6 @@ def sign_out(request):
     messages.success(request, "You've been signed out. Come back soon!")
     return HttpResponseRedirect(reverse('home'))
 
-
+@login_required
 def profile(request):
     return render(request, 'accounts/profile.html')

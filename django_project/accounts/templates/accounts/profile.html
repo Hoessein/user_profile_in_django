@@ -5,7 +5,7 @@
         nav here maybe?
     </div>
     <div class="grid-75">
-        <h1>Welcome! {{ user.username }}</h1>
+        <h1>Welcome! {{ user }}</h1>
         <form method="POST">
             {% csrf_token %}
             {{ form.as_p }}

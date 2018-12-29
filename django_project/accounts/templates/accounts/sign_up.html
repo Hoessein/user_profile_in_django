@@ -1,17 +1,17 @@
 {% extends 'accounts/layout.html' %}
 
 {% block body %}
-    <div class="grid-25">
-        nav here maybe?
-    </div>
-    <div class="grid-75">
-        <h1>Welcome!</h1>
-        <form method="POST">
-            {% csrf_token %}
-            {{ form.as_p }}
-        </form>
-        <p>Already have an account? Sign in here! </p>
+<div class="grid-25">
+    nav here maybe?
+</div>
+<div class="grid-75">
+<h1>Welcome!</h1>
+    <form method="POST" action="">
+        {% csrf_token %}
+        {{ form.as_p }}
         <div><input type="submit" class="button" value="Sign Up"></div>
+    </form>
+<p>Already have an account? Sign up <a href="{% url 'accounts:sign_up' %}">Here!</a> </p>
 
-    </div>
+</div>
 {% endblock %}
