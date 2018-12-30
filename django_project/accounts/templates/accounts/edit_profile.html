@@ -1,4 +1,4 @@
-{% extends 'accounts/layout.html' %}
+{% extends 'accounts/profile.html' %}
 
 {% block body %}
     <div class="grid-25">
@@ -15,8 +15,9 @@
 <h1>Welcome!</h1>
     <form method="POST" action="" enctype="multipart/form-data">
         {% csrf_token %}
-        <hr> <a href="{% url 'accounts:edit_profile' %}" class="button">Edit</a>
-</div>
+        {{ user_form.as_p }}
+        {{ profile_form.as_p }}
+        <div><input type="submit" class="button" value="Save"></div>
     </form>
 </div>
 

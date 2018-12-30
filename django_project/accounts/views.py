@@ -6,8 +6,7 @@ from django.contrib.auth.decorators import login_required
 from django.urls import reverse
 from django.http import HttpResponseRedirect
 from django.shortcuts import render
-
-
+from .forms import UserForm, UserProfileForm
 
 
 def sign_in(request):
@@ -59,6 +58,31 @@ def sign_out(request):
     messages.success(request, "You've been signed out. Come back soon!")
     return HttpResponseRedirect(reverse('home'))
 
+
 @login_required
 def profile(request):
     return render(request, 'accounts/profile.html')
+
+
+@login_required
+def edit_profile(request):
+    if request.method == 'POST':
+        user_form = UserForm(request.POST,
+                             instance=request.user)
+        profile_form = UserProfileForm(request.POST,
+                                       request.FILES,
+                                       instance=request.user.profile)
+        if user_form.is_valid() and profile_form.is_valid():
+            user_form.save()
+            profile_form.save()
+            messages.success(request, "Your profile has been edited.")
+            return HttpResponseRedirect(reverse('accounts:profile'))
+
+    else:
+        user_form = UserForm(instance=request.user)
+        profile_form = UserProfileForm(instance=request.user.profile)
+
+    return render(request, 'accounts/edit_profile.html', {'user_form': user_form,
+                                                     'profile_form': profile_form})
+
+

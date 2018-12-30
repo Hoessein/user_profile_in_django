@@ -126,5 +126,5 @@ STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'assets'),
 ]
 
-LOGIN_REDIRECT_URL = 'accounts-home'
-LOGIN_URL = 'sign-in'
+LOGIN_REDIRECT_URL = 'home'
+LOGIN_URL = 'accounts:sign_in'
