@@ -1,23 +1,27 @@
 {% extends 'accounts/layout.html' %}
 
 {% block body %}
-    <div class="grid-25">
-        nav here maybe?
+<div class="grid-25">
+<img class="circle--primary--avatar .button" src="{{ user.profile.avatar.url }}">
 
-    </div>
-
-    <img class="circle--primary--avatar .button" src="{{ user.profile.avatar.url }}">
-    <div class="grid-75">
-        <h1>Welcome! {{ user }}</h1>
-    </div>
+</div>
 
 <div class="grid-75">
-<h1>Welcome!</h1>
+    <h1>Profile Summary for {{ user.username }}</h1>
+</div>
+
+<div class="grid-75">
     <form method="POST" action="" enctype="multipart/form-data">
         {% csrf_token %}
-        <hr> <a href="{% url 'accounts:edit_profile' %}" class="button">Edit</a>
-</div>
+        <p><td>{{ user.profile.first_name }}</td> <td> {{ user.profile.last_name }}</td> </p>
+        <p></p>
+        <p>{{ user.profile.email }}</p>
+        <p>{{ user.profile.date_of_birth }}</p>
+        <p>{{ user.profile.bio|linebreaksbr }}</p>
+
+        <hr> <a href="{% url 'accounts:edit_profile' %}" class="button">Edit</a> </hr>
     </form>
+
 </div>
 
 {% endblock %}

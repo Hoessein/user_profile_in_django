@@ -1,7 +1,8 @@
 from django import forms
 
 from django.contrib.auth.models import User
-from django.contrib.auth.forms import UserCreationForm
+from django.contrib.admin import widgets
+from django.core import validators
 from .models import Profile
 
 
@@ -19,9 +20,17 @@ class UserProfileForm(forms.ModelForm):
         fields = ['first_name',
                   'last_name',
                   'email',
-                  'date_of_birth',
                   'confirm_email',
+                  'date_of_birth',
                   'bio',
                   'avatar'
                   ]
 
+    def clean(self):
+        """If the """
+        cleaned_data = super().clean()
+        email = cleaned_data['email']
+        confirm = cleaned_data['confirm_email']
+        if email != confirm:
+            raise forms.ValidationError(
+                "you need to enter the same email in both fields")

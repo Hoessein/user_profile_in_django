@@ -1,12 +1,15 @@
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
-from django.contrib.auth.forms import AuthenticationForm, UserCreationForm
+from django.contrib.auth.forms import \
+    AuthenticationForm, UserCreationForm, PasswordChangeForm
 from django.contrib.auth.decorators import login_required
 
 from django.urls import reverse
 from django.http import HttpResponseRedirect
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from .forms import UserForm, UserProfileForm
+
+from django.contrib.auth.models import User
 
 
 def sign_in(request):
@@ -18,9 +21,9 @@ def sign_in(request):
                 user = form.user_cache
                 if user.is_active:
                     login(request, user)
-                    return HttpResponseRedirect(
-                        reverse('accounts:profile')  # TODO: go to profile
-                    )
+                    return redirect(
+                        'accounts:profile')  # TODO: go to profile
+
                 else:
                     messages.error(
                         request,
@@ -49,14 +52,14 @@ def sign_up(request):
                 request,
                 "You're now a user! You've been signed in, too."
             )
-            return HttpResponseRedirect(reverse('accounts:profile'))  # TODO: go to profile
+            return redirect('accounts:profile')
     return render(request, 'accounts/sign_up.html', {'form': form})
 
 
 def sign_out(request):
     logout(request)
     messages.success(request, "You've been signed out. Come back soon!")
-    return HttpResponseRedirect(reverse('home'))
+    return redirect('home')
 
 
 @login_required
@@ -76,7 +79,7 @@ def edit_profile(request):
             user_form.save()
             profile_form.save()
             messages.success(request, "Your profile has been edited.")
-            return HttpResponseRedirect(reverse('accounts:profile'))
+            return redirect('accounts:profile')
 
     else:
         user_form = UserForm(instance=request.user)
@@ -85,4 +88,15 @@ def edit_profile(request):
     return render(request, 'accounts/edit_profile.html', {'user_form': user_form,
                                                      'profile_form': profile_form})
 
+@login_required
+def change_password(request):
+    if request.method == 'POST':
+        form = PasswordChangeForm(data=request.POST, user=request.user)
 
+        if form.is_valid():
+            form.save()
+            return redirect('accounts:profile')
+    else:
+        form = PasswordChangeForm(user=request.user)
+
+    return render(request, 'accounts/change_password.html', {'form': form})

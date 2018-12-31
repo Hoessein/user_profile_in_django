@@ -2,22 +2,27 @@
 
 {% block body %}
     <div class="grid-25">
-        nav here maybe?
+        <h1> My Profile </h1>
+        <img class="circle--primary--avatar .button" src="{{ user.profile.avatar.url }}">
+        <ul>Profile</ul>
+        <ul>Change Password</ul>
+        <ul>Edit Profile</ul>
+        <ul>Home</ul>
+        <ul>About</ul>
 
     </div>
 
-    <img class="circle--primary--avatar .button" src="{{ user.profile.avatar.url }}">
     <div class="grid-75">
-        <h1>Welcome! {{ user }}</h1>
+        <h1>Edit Profile Details </h1>
     </div>
 
 <div class="grid-75">
-<h1>Welcome!</h1>
     <form method="POST" action="" enctype="multipart/form-data">
         {% csrf_token %}
         {{ user_form.as_p }}
         {{ profile_form.as_p }}
         <div><input type="submit" class="button" value="Save"></div>
+
     </form>
 </div>
 

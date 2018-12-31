@@ -1,6 +1,4 @@
 {% load static from staticfiles %}
-<!DOCTYPE html>
-<html lang="en">
 <head>
 
     <!-- Basic Page Needs
@@ -21,15 +19,15 @@
 
     <!-- CSS
     –––––––––––––––––––––––––––––––––––––––––––––––––– -->
-    <link rel="stylesheet" href="{% static "css/global.css" %}">
+    <link rel="stylesheet" href="{% static 'css/global.css' %}">
 
     <!-- JS
     –––––––––––––––––––––––––––––––––––––––––––––––––– -->
     <script type="text/javascript"
             src="https://code.jquery.com/jquery-2.2.0.min.js"></script>
     <script type="text/javascript"
-            src="{% static "js/autogrow.js" %}"></script>
-    <script type="text/javascript" src="{% static "js/global.js" %}"></script>
+            src="{% static 'js/autogrow.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/global.js' %}"></script>
 
 
 </head>
@@ -74,9 +72,9 @@
 {% if messages %}
     <ul class="messages centered grid-50">
         {% for message in messages %}
-            <li{% if message.tags %}
-                class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+            <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
         {% endfor %}
+        </ul>
 {% endif %}
 
 {% block body %}{% endblock %}
