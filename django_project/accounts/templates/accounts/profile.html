@@ -2,7 +2,7 @@
 
 {% block body %}
 <div class="grid-25">
-<img class="circle--primary--avatar .button" src="{{ user.profile.avatar.url }}">
+    <img class="circle--primary--avatar .button" src="{{ user.profile.avatar.url }}">
 
 </div>
 
@@ -19,7 +19,10 @@
         <p>{{ user.profile.date_of_birth }}</p>
         <p>{{ user.profile.bio|linebreaksbr }}</p>
 
-        <hr> <a href="{% url 'accounts:edit_profile' %}" class="button">Edit</a> </hr>
+        <hr> <a href="{% url 'accounts:edit_profile' %}" class="button">Edit</a>
+        <a class="button" type="submit" href="{% url 'accounts:change_password' %}">Change Password</a>
+        </hr>
+
     </form>
 
 </div>

@@ -1,17 +1,6 @@
 {% extends 'accounts/profile.html' %}
 
 {% block body %}
-    <div class="grid-25">
-        <h1> My Profile </h1>
-        <img class="circle--primary--avatar .button" src="{{ user.profile.avatar.url }}">
-        <ul>Profile</ul>
-        <ul>Change Password</ul>
-        <ul>Edit Profile</ul>
-        <ul>Home</ul>
-        <ul>About</ul>
-
-    </div>
-
     <div class="grid-75">
         <h1>Edit Profile Details </h1>
     </div>
@@ -21,7 +10,9 @@
         {% csrf_token %}
         {{ user_form.as_p }}
         {{ profile_form.as_p }}
-        <div><input type="submit" class="button" value="Save"></div>
+        <div><input type="submit" class="button" value="Save">
+        <a class="button" type="submit" href="{% url 'accounts:profile' %}">Cancel</a></div>
+
 
     </form>
 </div>

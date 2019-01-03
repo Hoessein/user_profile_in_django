@@ -25,12 +25,12 @@ class Profile(models.Model):
         """If the models is looked up it will print the username of the user"""
         return self.user.username
 
-    # def save(self):
+    # def save(self, *args, **kwargs):
     #     super().save()
-    #
-    #     img = Image.open(self.avatar.path)
-    #
-    #     if img.height > 300 or img.width > 300:
-    #         output_size = (300, 300)
-    #         img.thumbnail(output_size)
-    #         img.save(self.avatar.path)
+
+        # img = Image.open(self.avatar.path)
+        #
+        # if img.height > 300 or img.width > 300:
+        #     output_size = (300, 300)
+        #     img.thumbnail(output_size)
+        #     img.save(self.avatar.path)
