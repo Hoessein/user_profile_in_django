@@ -1,12 +1,10 @@
 from django import forms
 
 from django.contrib.auth.models import User
-from django.contrib.admin import widgets
-from django.core import validators
+
 from .models import Profile
 
-from django.contrib.auth.forms import PasswordChangeForm
-from django.contrib.auth.hashers import check_password
+from django.contrib.auth.forms import PasswordChangeForm, UserCreationForm
 
 
 class UserForm(forms.ModelForm):
@@ -30,13 +28,12 @@ class UserProfileForm(forms.ModelForm):
                   ]
 
     def clean(self):
-        """If the """
+        """Checks if email1 and email2 are the same """
         cleaned_data = super().clean()
         email = cleaned_data['email']
         confirm = cleaned_data['confirm_email']
         if email != confirm:
-            raise forms.ValidationError(
-                "you need to enter the same email in both fields")
+            raise forms.ValidationError("you need to enter the same email in both fields")
 
 
 class ChangePasswordForm(PasswordChangeForm):
@@ -45,18 +42,40 @@ class ChangePasswordForm(PasswordChangeForm):
         model = User
 
     def __init__(self, *args, **kwargs):
+        """Prevents help text to be printed"""
         super(ChangePasswordForm, self).__init__(*args, **kwargs)
         self.fields['old_password'].help_text = ''
         self.fields['new_password1'].help_text = ''
         self.fields['new_password2'].help_text = ''
 
-
     def clean_old_password(self):
-        """
-        Validate that the old_password field is correct.
-        """
+        """Check if the old password entered is the actual old answer"""
         cleaned_data = super().clean()
-        old_password = cleaned_data["old_password"]
+        old_password = cleaned_data['old_password']
         if not self.user.check_password(old_password):
             raise forms.ValidationError('Your old password is incorrect')
+
+    def clean_new_password2(self):
+        """Checks if old password is the same as new password"""
+        cleaned_data = super().clean()
+        new_password = cleaned_data['new_password2']
+        old_new_password_comparison = self.user.check_password(new_password)
+        if old_new_password_comparison:
+            raise forms.ValidationError("Your old password can't be the same as your new password.")
+
+
+class CreationUserForm(UserCreationForm):
+
+    class Meta:
+        model = User
+        fields = ['username',
+                  'password1',
+                  'password2'
+                  ]
+
+    def __init__(self, *args, **kwargs):
+        """Prevents help text to be printed"""
+        super(CreationUserForm, self).__init__(*args, **kwargs)
+        self.fields['password1'].help_text = ''
+        self.fields['password2'].help_text = ''
 

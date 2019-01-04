@@ -13,7 +13,7 @@ def create_profile(sender, instance, created, **kwargs):
 
 @receiver(post_save, sender=User)
 def save_profile(sender, instance, **kwargs):
-    """If a user is created a profile will also be created for that user"""
+    """The profile that was created for the user will now be saved"""
     instance.profile.save()
 
 

@@ -16,21 +16,6 @@ class Profile(models.Model):
     bio = models.TextField(validators=[validators.MinLengthValidator(10)])
     avatar = models.ImageField(upload_to='profile_pics', default='default.jpg')
 
-    # (YYYY-MM-DD, MM / DD / YYYY, or MM / DD / YY)
-    # '%Y-%m-%d',
-    # '%m / %d / %Y',
-    # '%m / %d / %y'
-
     def __str__(self):
-        """If the models is looked up it will print the username of the user"""
+        """Prints username from database as string"""
         return self.user.username
-
-    # def save(self, *args, **kwargs):
-    #     super().save()
-
-        # img = Image.open(self.avatar.path)
-        #
-        # if img.height > 300 or img.width > 300:
-        #     output_size = (300, 300)
-        #     img.thumbnail(output_size)
-        #     img.save(self.avatar.path)

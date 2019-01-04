@@ -1,6 +1,7 @@
 from django.core.exceptions import ValidationError
 import re
 
+# https://docs.djangoproject.com/en/2.1/topics/auth/passwords/#writing-your-own-validator
 
 class HasLowerCaseValidator:
     def __init__(self):

@@ -1,17 +1,11 @@
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout, update_session_auth_hash
-from django.contrib.auth.forms import \
-    AuthenticationForm, UserCreationForm, PasswordChangeForm
+from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth.decorators import login_required
 
-from django.urls import reverse
-from django.http import HttpResponseRedirect
 from django.shortcuts import render, redirect
-from .forms import UserForm,UserProfileForm, ChangePasswordForm
-from django.contrib.auth.hashers import check_password
 
-
-from django.contrib.auth.models import User
+from .forms import UserForm,UserProfileForm, ChangePasswordForm, CreationUserForm
 
 
 def sign_in(request):
@@ -40,9 +34,9 @@ def sign_in(request):
 
 
 def sign_up(request):
-    form = UserCreationForm()
+    form = CreationUserForm()
     if request.method == 'POST':
-        form = UserCreationForm(data=request.POST)
+        form = CreationUserForm(data=request.POST)
         if form.is_valid():
             form.save()
             user = authenticate(
@@ -88,7 +82,8 @@ def edit_profile(request):
         profile_form = UserProfileForm(instance=request.user.profile)
 
     return render(request, 'accounts/edit_profile.html', {'user_form': user_form,
-                                                     'profile_form': profile_form})
+                                                          'profile_form': profile_form})
+
 
 @login_required
 def change_password(request):
