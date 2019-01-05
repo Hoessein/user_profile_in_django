@@ -2,8 +2,9 @@
 
 {% block body %}
 <div class="grid-25">
+    {% if user.profile.avatar %}
     <img class="circle--primary--avatar .button" src="{{ user.profile.avatar.url }}">
-
+    {% endif %}
 </div>
 
 <div class="grid-75">

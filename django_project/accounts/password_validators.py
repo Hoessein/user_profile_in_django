@@ -1,7 +1,13 @@
 from django.core.exceptions import ValidationError
+from difflib import SequenceMatcher
+from django.core.exceptions import FieldDoesNotExist, ValidationError
+
+from .models import Profile
+
 import re
 
 # https://docs.djangoproject.com/en/2.1/topics/auth/passwords/#writing-your-own-validator
+
 
 class HasLowerCaseValidator:
     def __init__(self):
@@ -49,3 +55,29 @@ class HasSymbolValidator:
 
     def get_help_text(self):
         return self.message
+
+
+class UserProfileAttributeSimilarityValidator:
+
+    def __init__(self):
+        self.message = "Your password can't be too similar to your other personal information."
+
+    def validate(self, password, user=None):
+        if not user:
+            return
+
+        not_allowed_attributes = []
+
+        if user:
+            not_allowed_attributes.append(user.username.lower())
+            if hasattr(user, 'profile'):
+                not_allowed_attributes.append(user.profile.first_name.lower())
+                not_allowed_attributes.append(user.profile.last_name.lower())
+
+            for attribute in not_allowed_attributes:
+                if attribute in password.lower():
+                    raise ValidationError(self.message)
+
+    def get_help_text(self):
+        return self.message
+

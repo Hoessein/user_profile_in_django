@@ -55,10 +55,9 @@ class ChangePasswordForm(PasswordChangeForm):
         if not self.user.check_password(old_password):
             raise forms.ValidationError('Your old password is incorrect')
 
-    def clean_new_password2(self):
+    def clean_new_password1(self):
         """Checks if old password is the same as new password"""
-        cleaned_data = super().clean()
-        new_password = cleaned_data['new_password2']
+        new_password = self.cleaned_data['new_password1']
         old_new_password_comparison = self.user.check_password(new_password)
         if old_new_password_comparison:
             raise forms.ValidationError("Your old password can't be the same as your new password.")
