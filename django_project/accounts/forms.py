@@ -28,7 +28,7 @@ class UserProfileForm(forms.ModelForm):
                   ]
 
     def clean(self):
-        """Checks if email1 and email2 are the same """
+        """Checks if email1 and email2 are the same"""
         cleaned_data = super().clean()
         email = cleaned_data['email']
         confirm = cleaned_data['confirm_email']
@@ -49,11 +49,12 @@ class ChangePasswordForm(PasswordChangeForm):
         self.fields['new_password2'].help_text = ''
 
     def clean_old_password(self):
-        """Check if the old password entered is the actual old answer"""
+        """Checks if the old password entered is the actual old password"""
         cleaned_data = super().clean()
         old_password = cleaned_data['old_password']
         if not self.user.check_password(old_password):
             raise forms.ValidationError('Your old password is incorrect')
+
 
     def clean_new_password1(self):
         """Checks if old password is the same as new password"""
@@ -61,6 +62,8 @@ class ChangePasswordForm(PasswordChangeForm):
         old_new_password_comparison = self.user.check_password(new_password)
         if old_new_password_comparison:
             raise forms.ValidationError("Your old password can't be the same as your new password.")
+
+        return new_password
 
 
 class CreationUserForm(UserCreationForm):

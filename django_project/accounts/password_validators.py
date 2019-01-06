@@ -1,8 +1,5 @@
 from django.core.exceptions import ValidationError
-from difflib import SequenceMatcher
-from django.core.exceptions import FieldDoesNotExist, ValidationError
 
-from .models import Profile
 
 import re
 
@@ -75,9 +72,11 @@ class UserProfileAttributeSimilarityValidator:
                 not_allowed_attributes.append(user.profile.last_name.lower())
 
             for attribute in not_allowed_attributes:
-                if attribute in password.lower():
-                    raise ValidationError(self.message)
+                if attribute:
+                    # additional check to prevent default model fields to be
+                    # added to not_allowed_attributes
+                    if attribute in password.lower():
+                        raise ValidationError(self.message)
 
     def get_help_text(self):
         return self.message
-

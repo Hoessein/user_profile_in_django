@@ -6,7 +6,7 @@ from .models import Profile
 
 @receiver(post_save, sender=User)
 def create_profile(sender, instance, created, **kwargs):
-    """If a user is created a profile will also be created for that user"""
+    """When a user is created a profile will also be created for that user"""
     if created:
         Profile.objects.create(user=instance)
 

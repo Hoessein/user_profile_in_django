@@ -60,11 +60,13 @@ def sign_out(request):
 
 @login_required
 def profile(request):
+    """Shows users profile details"""
     return render(request, 'accounts/profile.html')
 
 
 @login_required
 def edit_profile(request):
+    """Allows user to edit profile details"""
     if request.method == 'POST':
         user_form = UserForm(request.POST,
                              instance=request.user)
@@ -87,12 +89,13 @@ def edit_profile(request):
 
 @login_required
 def change_password(request):
+    """Allows logged in user to change password"""
     if request.method == 'POST':
         form = ChangePasswordForm(data=request.POST, user=request.user)
 
         if form.is_valid():
-            form.save()
-            update_session_auth_hash(request, form.user)
+            user = form.save()
+            update_session_auth_hash(request, user)
             messages.success(request, "Your password has been changed.")
             return redirect('accounts:profile')
 

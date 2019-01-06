@@ -17,7 +17,7 @@
         <p><td>{{ user.profile.first_name }}</td> <td> {{ user.profile.last_name }}</td> </p>
         <p></p>
         <p>{{ user.profile.email }}</p>
-        <p>{{ user.profile.date_of_birth }}</p>
+        <p>{{ user.profile.date_of_birth|default_if_none:"" }}</p>
         <p>{{ user.profile.bio }}</p>
 
         <hr> <a href="{% url 'accounts:edit_profile' %}" class="button">Edit</a>
